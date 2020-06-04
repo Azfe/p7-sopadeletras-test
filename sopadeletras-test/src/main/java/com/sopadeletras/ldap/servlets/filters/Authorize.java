@@ -1,4 +1,4 @@
-package com.sopadeletras.servlets.filters;
+package com.sopadeletras.ldap.servlets.filters;
 
 import java.io.IOException;
 import java.util.Hashtable;

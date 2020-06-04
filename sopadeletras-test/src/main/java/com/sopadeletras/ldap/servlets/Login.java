@@ -1,4 +1,4 @@
-package com.sopadeletras.servlets;
+package com.sopadeletras.ldap.servlets;
 
 import java.io.IOException;
 
