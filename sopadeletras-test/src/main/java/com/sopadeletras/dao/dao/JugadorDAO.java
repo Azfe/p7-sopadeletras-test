@@ -1,83 +1,132 @@
-package com.sopadeletras.dao.mysql;
+package com.sopadeletras.dao.dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 
+import com.sopadeletras.connection.Conexion;
+import com.sopadeletras.dao.CRUD;
 import com.sopadeletras.dao.idao.DAOException;
-import com.sopadeletras.dao.idao.JugadorDAO;
+import com.sopadeletras.dao.idao.JugadorIDAO;
 import com.sopadeletras.mvc.model.Jugador;
 
-public class MySQLJugadorDAO implements JugadorDAO {
+public class JugadorDAO {
 	
-	final String INSERT = "INSERT INTO JUGADOR(idGamer, nick, email, password, puntuacion) values (?, ?, ?, ?, ?)";
+	private Conexion con;
+	private Connection connection;
 	
-	final String UPDATE = "UPDATE jugador SET nick = ?, email = ?, password = ?, puntuacion = ? WHERE idGamer = ?";
-	
-	final String DELETE = "DELETE FROM jugador WHERE idGamer = ?";
-	
-	final String GETALL = "SELECT idGamer, nick, email, password, puntuacion FROM JUGADOR";
-	
-	final String GETONE = "SELECT idGamer, nick, email, password, puntuacion FROM JUGADOR WHERE idGamer = ?";
-	
-	private Connection conexion;
-	
-	public MySQLJugadorDAO(Connection conexion) {
-		this.conexion = conexion;
+	public JugadorDAO(String jdbcURL, String jdbcUserName, String jdbcPassword) throws SQLException	{
+		
+		System.out.println(jdbcURL);
+		con = new Conexion(jdbcURL, jdbcUserName, jdbcPassword);		
 	}
-
-	@Override
-	public void insertar(Jugador j) throws DAOException {
-		// TODO Auto-generated method stub
+	
+	// Insertar Jugador	
+	public boolean insertar(Jugador jugador) throws SQLException{
 		
-		PreparedStatement stat = null;
+		String sql = "INSERT INTO jugador(idGamer, nick, email, password, puntuacion) values (?,?,?,?,?)";
+		System.out.println(jugador.getNick());
+		PreparedStatement statement = connection.prepareStatement(sql);
+		statement.setInt(1, (Integer) null);
+		//statement.setInt(2,  jugador.getIdGamer());
+		statement.setString(2, jugador.getNick());
+		statement.setString(3, jugador.getEmail());
+		statement.setString(4,  jugador.getPassword());
+		statement.setInt(5, jugador.getPuntuacion());
 		
-		try {			
-			stat = conexion.prepareStatement(INSERT);
-			stat.setInt(1, j.getIdGamer());
-			stat.setString(2, j.getNick());
-			stat.setString(2, j.getEmail());
-			stat.setString(2, j.getPassword());
-			stat.setInt(2, j.getPuntuacion());
-			if(stat.executeUpdate() == 0) {
-				throw new DAOException("Puede que no se haya guardado.");
-			}
-		} catch (SQLException ex) {
-			throw new DAOException("Error en SQL", ex);
-		} finally {
-			if(stat != null) {
-				
-				try {
-					stat.close();
-				} catch (SQLException ex) {
-					throw new DAOException("Error en SQL", ex);
-				}
-			}
+		boolean rowInserted = statement.executeUpdate() > 0;
+		statement.close();
+		con.desconectar();
+		return rowInserted;		
+	}
+	
+	// Listar todos los productos
+	public List<Jugador> listaJugadores() throws SQLException{
+		
+		List<Jugador> listaJugadores = new ArrayList<Jugador>();
+		
+		String sql = "SELECT * FROM jugador";
+		
+		con.conectar();
+		connection = con.getJdbcConnection();
+		Statement statement = connection.createStatement();
+		ResultSet resultSet = statement.executeQuery(sql);
+		
+		while(resultSet.next()) {
+			int idGamer = resultSet.getInt("idGamer");
+			String nick = resultSet.getString("nick");
+			String email = resultSet.getString("email");
+			String password = resultSet.getString("password");
+			int puntuacion = resultSet.getInt("puntuacion");
+			Jugador jugador = new Jugador(idGamer, nick, email, password, puntuacion);
+			listaJugadores.add(jugador);			
 		}
-	}
-
-	@Override
-	public void modificar(Jugador a) {
-		// TODO Auto-generated method stub
 		
+		con.desconectar();
+		return listaJugadores;			
 	}
-
-	@Override
-	public void eliminar(Jugador a) {
-		// TODO Auto-generated method stub
+	
+	// Obtener por id
+	public Jugador obtenerPorId(int idGamer) throws SQLException{
 		
+		Jugador jugador = null;
+		
+		String sql = "SELECT * FROM jugador WHERE idGamer = ?";
+		con.conectar();
+		connection = con.getJdbcConnection();
+		PreparedStatement statement = connection.prepareStatement(sql);
+		statement.setInt(1, idGamer);
+		
+		ResultSet res = statement.executeQuery();
+		if(res.next()) {
+			jugador = new Jugador(res.getInt("idGamer"), res.getString("nick"), res.getString("email"), 
+					res.getString("password"), res.getInt("puntuacion"));
+		}
+		res.close();
+		con.desconectar();
+		
+		return jugador;		
 	}
-
-	@Override
-	public List<Jugador> obtenerTodos() {
-		// TODO Auto-generated method stub
-		return null;
+	
+	// Actualizar jugador
+	public boolean actualizar(Jugador jugador) throws SQLException{
+		boolean rowActualizar = false;
+		String sql = "UPDATE jugador SET idGamer = ?, nick = ?, email = ?, password = ?, puntuacion = ? WHERE idGamer = ?";
+		con.conectar();
+		connection = con.getJdbcConnection();
+		PreparedStatement statement = connection.prepareStatement(sql);
+		statement.setInt(1, jugador.getIdGamer());
+		statement.setString(2, jugador.getNick());
+		statement.setString(3, jugador.getEmail());
+		statement.setString(4, jugador.getPassword());
+		statement.setInt(5, jugador.getPuntuacion());
+		
+		rowActualizar = statement.executeUpdate() > 0;
+		statement.close();
+		con.desconectar();
+		
+		return rowActualizar;				
 	}
-
-	@Override
-	public Jugador obtener(String idGamer) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	
+	// Eliminar jugador
+	
+	public boolean eliminar(Jugador jugador) throws SQLException{
+		
+		boolean rowEliminar = false;
+		String sql = "DELETE FROM jugador WHERE idGamer = ?";
+		con.conectar();
+		connection = con.getJdbcConnection();
+		PreparedStatement statement = connection.prepareStatement(sql);		
+		statement.setInt(1, jugador.getIdGamer());
+		
+		rowEliminar = statement.executeUpdate() > 0;
+		statement.close();
+		con.desconectar();
+		
+		return rowEliminar;
+	}	
 }

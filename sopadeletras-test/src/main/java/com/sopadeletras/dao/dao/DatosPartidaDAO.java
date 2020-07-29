@@ -1,13 +1,12 @@
-package com.sopadeletras.dao.mysql;
+package com.sopadeletras.dao.dao;
 
 import java.util.List;
 
-import com.sopadeletras.dao.idao.DatosPartidaDAO;
+//import com.sopadeletras.dao.idao.DatosPartidaDAO;
 import com.sopadeletras.mvc.model.DatosPartida;
 
-public class MySQLDatosPartidaDAO implements DatosPartidaDAO{
+public class DatosPartidaDAO{
 
-	@Override
 	public void insertar(DatosPartida a) {
 		// TODO Auto-generated method stub
 		
@@ -36,5 +35,4 @@ public class MySQLDatosPartidaDAO implements DatosPartidaDAO{
 		// TODO Auto-generated method stub
 		return null;
 	}
-
 }

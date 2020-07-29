@@ -1,8 +1,8 @@
 package com.sopadeletras.dao.idao;
 
-import com.sopadeletras.dao.DAO;
+import com.sopadeletras.dao.CRUD;
 import com.sopadeletras.mvc.model.Casilla;
 
-public interface CasillaDAO  extends DAO<Casilla, String> {
+public interface CasillaIDAO  extends CRUD {
 
 }

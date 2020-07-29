@@ -24,5 +24,7 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="C:/Users/Alex/Dropbox/CFGS DAW - UOC JESUITES/P7_Aplicación backend con tecnología Java en servidores de aplicaciones/FASE 03/Productos/producto-02/recursos-internet/mysql-connector-java-5.1.49/mysql-connector-java-5.1.49-bin.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Alex/Dropbox/CFGS DAW - UOC JESUITES/P7_Aplicación backend con tecnología Java en servidores de aplicaciones/FASE 03/Productos/Log4j/log4j-core-2.11.2.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

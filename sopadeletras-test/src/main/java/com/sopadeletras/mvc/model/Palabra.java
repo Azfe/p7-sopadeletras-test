@@ -4,12 +4,20 @@ public class Palabra {
 	
 	private int idPalabra;
 	private String nomPalabra;
-	private int numSilabas;
+	private int numLetras;
 	
+	// Métodos constructores:	
 	public Palabra() {
 		super();
 	}
-
+	
+	public Palabra(int idPalabra, String nomPalabra, int numLetras) {		
+		this.idPalabra = idPalabra;
+		this.nomPalabra = nomPalabra;
+		this.numLetras = numLetras;				
+	}
+	
+	// Getters y setters
 	public int getIdPalabra() {
 		return idPalabra;
 	}
@@ -26,17 +34,17 @@ public class Palabra {
 		this.nomPalabra = nomPalabra;
 	}
 
-	public int getNumSilabas() {
-		return numSilabas;
+	public int getNumLetras() {
+		return numLetras;
 	}
 
-	public void setNumSilabas(int numSilabas) {
-		this.numSilabas = numSilabas;
+	public void setNumSilabas(int numLetras) {
+		this.numLetras = numLetras;
 	}
 
 	@Override
 	public String toString() {
-		return "Palabra [idPalabra=" + idPalabra + ", nomPalabra=" + nomPalabra + ", numSilabas=" + numSilabas + "]";
+		return "Palabra [idPalabra=" + idPalabra + ", nomPalabra=" + nomPalabra + ", numLetras=" + numLetras + "]";
 	}
 
 }

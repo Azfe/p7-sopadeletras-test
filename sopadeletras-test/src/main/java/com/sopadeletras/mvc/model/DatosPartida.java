@@ -1,13 +1,17 @@
 package com.sopadeletras.mvc.model;
 
+
+import java.io.Serializable;
+import java.sql.Timestamp;
+
+
 public class DatosPartida {
-	
+
 	private int idPartida;
+	private Timestamp fecha;
 	private int contadorTiempo;
 	private int aciertos;
 	private int numIntentos;
-	private int intentosRestantes;
-	private int totalIntentos;
 	
 	public DatosPartida() {
 		super();
@@ -19,6 +23,14 @@ public class DatosPartida {
 
 	public void setIdPartida(int idPartida) {
 		this.idPartida = idPartida;
+	}
+	
+	public Timestamp getFecha() {
+		return fecha;
+	}
+
+	public void setFecha(Timestamp fecha) {
+		this.fecha = fecha;
 	}
 
 	public int getContadorTiempo() {
@@ -45,27 +57,9 @@ public class DatosPartida {
 		this.numIntentos = numIntentos;
 	}
 
-	public int getIntentosRestantes() {
-		return intentosRestantes;
-	}
-
-	public void setIntentosRestantes(int intentosRestantes) {
-		this.intentosRestantes = intentosRestantes;
-	}
-
-	public int getTotalIntentos() {
-		return totalIntentos;
-	}
-
-	public void setTotalIntentos(int totalIntentos) {
-		this.totalIntentos = totalIntentos;
-	}
-
 	@Override
 	public String toString() {
-		return "DatosPartida [idPartida=" + idPartida + ", contadorTiempo=" + contadorTiempo + ", aciertos=" + aciertos
-				+ ", numIntentos=" + numIntentos + ", intentosRestantes=" + intentosRestantes + ", totalIntentos="
-				+ totalIntentos + "]";
-	}
-	
+		return "DatosPartida [idPartida=" + idPartida + ", fecha=" + fecha + ", contadorTiempo=" + contadorTiempo
+				+ ", aciertos=" + aciertos + ", numIntentos=" + numIntentos + "]";
+	}	
 }

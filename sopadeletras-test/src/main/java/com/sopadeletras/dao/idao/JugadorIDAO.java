@@ -1,32 +1,17 @@
 package com.sopadeletras.dao.idao;
 
-import com.sopadeletras.dao.DAO;
+import java.util.List;
+
+import com.sopadeletras.dao.CRUD;
 import com.sopadeletras.mvc.model.Jugador;
 
-public interface JugadorDAO extends DAO<Jugador, String> {
+public interface JugadorIDAO extends CRUD {
 	
 	
-	
-	
-	
-	// Crear un nuevo jugador
-	/*
-	public void add(Jugador jugador) {
-		
-		MemoryStore.addJugador(jugador);		
-	}
-	
-	public void update(Jugador jugador) {
-		MemoryStore.editJugador(jugador);
-	}
-	
-	public List<Jugador> get(){
-		
-		return MemoryStore.getJugadores();
-	}
-	
-	public Jugador getJugador(String idGamer) {
-		return MemoryStore.getJugador(idGamer);
-	}*/
+	public List listar();	
+	public Jugador list(int id);
+	public boolean add(Jugador jug);
+	public boolean update(Jugador jug);
+	public boolean eliminar();
 
 }
